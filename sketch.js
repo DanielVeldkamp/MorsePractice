@@ -1,6 +1,7 @@
 function setup() {
   createCanvas(windowWidth, windowHeight);
   audioPlayer = new AudioPlayer();
+  audioPlayer.start();
   var textToPlay = "hello";
   audioPlayer.playMorseCode(textToPlay);
   
