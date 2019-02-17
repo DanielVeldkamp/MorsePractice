@@ -1,15 +1,29 @@
 function setup() {
   createCanvas(windowWidth, windowHeight);
-  audioPlayer = new AudioPlayer();
-  audioPlayer.start();
-  var textToPlay = "hello";
-  audioPlayer.playMorseCode(textToPlay);
   
-  volumeSlider = createSlider(0, 100, 0);
+  var unit = 100;
+  audioPlayer = new AudioPlayer(unit);
+  converter = new Converter();
+  
+  var morseToPlay = converter.convertToMorse("Hello world");
+  audioPlayer.playMorseCode(morseToPlay);
+  
+  volumeSlider = createSlider(0, 100, 50);
   
   muteImg = loadImage('images/mute_32px.png');
   speakerImg = loadImage('images/speaker_32px.png');
   
+  button1 = createButton('1 unit');
+  button1.position(10, 10);
+  button1.mousePressed(function(e) {
+    audioPlayer.playNote(true, 100);
+  });
+  
+  button2 = createButton('3 units');
+  button2.position(button1.width + 20, 10);
+  button2.mousePressed(function(e) {
+    audioPlayer.playNote(true, 300);
+  });
 }
 
 function draw() {
@@ -22,8 +36,6 @@ function draw() {
   const volume = volumeSlider.value();
   var amp = map(volume, 100, 0, 1, 0);
   audioPlayer.setAmp(amp);
-  
-  
 }
 
 function windowResized() {
