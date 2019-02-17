@@ -17,24 +17,37 @@ function AudioPlayer(unit) {
     }, duration);
   }
   
-  this.playMorseCode = function(notesToPlay) {
-    console.log(notesToPlay);
-    this.playNote(notesToPlay);
-    for (i = 0; i < notesToPlay.length; i++) {
-      var currentChar = notesToPlay[i];
-      if (currentChar == ".") {
-        //console.log("play note for 1 unit");
-        this.playNote(true, unit * 1);
-      } else if (currentChar == "-") {
-        //console.log("play note for 3 units");
-        this.playNote(true, unit * 3);
-      } else if (currentChar == " ") {
-        //console.log("wait 1 unit");
-        this.playNote(false, unit * 1);
-      } else if (currentChar == "/") {
-        //console.log("wait 7 units");
-        this.playNote(false, unit * 7);
-      }
+  this.playMorseCode = function(notesToPlay, index) {
+    if (!index) {
+      currentIndex = 0;
+    } else {
+      currentIndex = index;
+    }
+    
+    var currentChar = notesToPlay[currentIndex];
+    
+    if (currentChar == ".") {
+      shouldPlay = true;
+      timeout = unit;
+    } else if (currentChar == "-") {
+      shouldPlay = true;
+      timeout = unit * 3;
+    } else if (currentChar == "|") {
+      shouldPlay = false;
+      timeout = unit * 1;
+    }else if (currentChar == " ") {
+      shouldPlay = false;
+      timeout = unit * 3;
+    } else if (currentChar == "/") {
+      shouldPlay = false;
+      timeout = unit * 7;
+    }
+    
+    this.playNote(shouldPlay, timeout);
+    if (index != notesToPlay.length) {
+      setTimeout(function() {
+        audioPlayer.playMorseCode(notesToPlay, currentIndex + 1);
+      }, timeout);
     }
   }
 }

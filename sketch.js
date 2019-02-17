@@ -5,24 +5,21 @@ function setup() {
   audioPlayer = new AudioPlayer(unit);
   converter = new Converter();
   
-  var morseToPlay = converter.convertToMorse("Hello world");
-  audioPlayer.playMorseCode(morseToPlay);
-  
   volumeSlider = createSlider(0, 100, 50);
   
   muteImg = loadImage('images/mute_32px.png');
   speakerImg = loadImage('images/speaker_32px.png');
   
-  button1 = createButton('1 unit');
+  button1 = createButton('SOS');
   button1.position(10, 10);
   button1.mousePressed(function(e) {
-    audioPlayer.playNote(true, 100);
+    audioPlayer.playMorseCode(converter.convertToMorse("SOS"));
   });
   
-  button2 = createButton('3 units');
+  button2 = createButton('hello world');
   button2.position(button1.width + 20, 10);
   button2.mousePressed(function(e) {
-    audioPlayer.playNote(true, 300);
+    audioPlayer.playMorseCode(converter.convertToMorse("hello world"));
   });
 }
 
