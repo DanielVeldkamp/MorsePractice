@@ -1,6 +1,13 @@
 function setup() {
   createCanvas(windowWidth, windowHeight);
   
+  var letters = "abcdefghijklmnopqrstuvwxyz";
+  var numbers = "0123456789";
+  var punctuation = ".,!'()&+-/:;=?@_" + '"';
+  var currentSelection = letters + numbers + punctuation;
+  currentMorseCode = "";
+  
+  textSize(70);
   var unit = 100;
   audioPlayer = new AudioPlayer(unit);
   converter = new Converter();
@@ -10,16 +17,24 @@ function setup() {
   muteImg = loadImage('images/mute_32px.png');
   speakerImg = loadImage('images/speaker_32px.png');
   
-  button1 = createButton('SOS');
-  button1.position(10, 10);
-  button1.mousePressed(function(e) {
-    audioPlayer.playMorseCode(converter.convertToMorse("SOS"));
+  randomButton = createButton('Play random character');
+  randomButton.position(10, 10);
+  randomButton.mousePressed(function(e) {
+    currentMorseCode = "";
+    randomChar = currentSelection.charAt(Math.floor(Math.random() * currentSelection.length));
+    console.log(randomChar);
+    audioPlayer.playMorseCode(converter.convertToMorse(randomChar));
   });
   
-  button2 = createButton('hello world');
-  button2.position(button1.width + 20, 10);
-  button2.mousePressed(function(e) {
-    audioPlayer.playMorseCode(converter.convertToMorse("hello world"));
+  inputField = createInput("");
+  inputField.position(20 + randomButton.width, 10);
+  
+  inputButton = createButton('<-- Convert input');
+  inputButton.position(30 + randomButton.width + inputField.width, 10);
+  inputButton.mousePressed(function(e) {
+    currentMorseCode = "";
+    inputText = inputField.value();
+    audioPlayer.playMorseCode(converter.convertToMorse(inputText));
   });
 }
 
@@ -33,6 +48,14 @@ function draw() {
   const volume = volumeSlider.value();
   var amp = map(volume, 100, 0, 1, 0);
   audioPlayer.setAmp(amp);
+  
+  if (audioPlayer.currentlyPlaying != null) {
+    currentMorseCode += audioPlayer.currentlyPlaying;
+    audioPlayer.setCurrentlyPlaying(null);
+  }
+  
+  fill(0);
+  text(currentMorseCode, 50, windowHeight/2);
 }
 
 function windowResized() {

@@ -1,11 +1,27 @@
 function Converter() {
+  this.convertToMorse = function(text) {
+    var outputMorse = "";
+    var text = text.toLowerCase();
+    for (i = 0; i < text.length; i++) {
+      if (text.charAt(i) == " ") {
+        outputMorse += "/";
+      } else if (lookupTable[text.charAt(i)] != undefined) {
+        outputMorse += lookupTable[text.charAt(i)];
+        if (text.charAt(i + 1) !== " ") {
+          outputMorse += " ";
+        }
+      }
+    }
+    return outputMorse;
+  }
+  
   const lookupTable = {
     'a': '.|-',
     'b': '-|.|.|.',
     'c': '-|.|-|.',
     'd': '-|.|.',
     'e': '.',
-    'f': '.|.|-.',
+    'f': '.|.|-|.',
     'g': '-|-|.',
     'h': '.|.|.|.',
     'i': '.|.',
@@ -26,21 +42,32 @@ function Converter() {
     'x': '-|.|.|-',
     'y': '-|.|-|-',
     'z': '-|-|.|.',
+    '0': '-|-|-|-|-',
+    '1': '.|-|-|-|-',
+    '2': '.|.|-|-|-',
+    '3': '.|.|.|-|-',
+    '4': '.|.|.|.|-',
+    '5': '.|.|.|.|.',
+    '6': '-|.|.|.|.',
+    '7': '-|-|.|.|.',
+    '8': '-|-|-|.|.',
+    '9': '-|-|-|-|.',
+    '.': '.|-|.|-|.|-',
+    ',': '-|-|.|.|-|-',
+    '!': '-|.|-|.|-|-',
+    '"': '.|-|.|.|-|.',
+    '(': '-|.|-|-|.',
+    ')': '-|.|-|-|.|-',
+    '&': '.|-|.|.|.',
+    '+': '.|-|.|-|.',
+    '-': '-|.|.|.|.|-',
+    '/': '-|.|.|-|.',
+    ':': '-|-|-|.|.|.',
+    ';': '-|.|-|.|-|.',
+    '=': '-|.|.|.|-',
+    '?': '.|.|-|-|.|.',
+    '@': '.|-|-|.|-|.',
+    '_': '.|.|-|-|.|-',
+    "'": '.|-|-|-|-|.'
   };
-
-  this.convertToMorse = function(text) {
-    var outputMorse = "";
-    var text = text.toLowerCase();
-    for (i = 0; i < text.length; i++) {
-      if (text.charAt(i) == " ") {
-        outputMorse += "/";
-      } else if (lookupTable[text.charAt(i)] != undefined) {
-        outputMorse += lookupTable[text.charAt(i)];
-        if (text.charAt(i + 1) !== " ") {
-          outputMorse += " ";
-        }
-      }
-    }
-    return outputMorse;
-  }
 }
